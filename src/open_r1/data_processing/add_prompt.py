@@ -12,11 +12,11 @@ from functools import lru_cache
 
 from open_r1.prompts import sql_reasoning_prompt   # already defined by you
 
-ROOT = pathlib.Path(__file__).resolve().parents[2]
-DATA_DIR = ROOT / "data_processing"
-SQL_DIR  = DATA_DIR / "sql_files"
-IN_FILE  = DATA_DIR / "train.json"
-OUT_FILE = DATA_DIR / "train_with_prompt.json"
+HERE      = pathlib.Path(__file__).resolve().parent          # .../utils
+DATA_DIR  = HERE.parent / "data_processing"                  # .../data_processing
+SQL_DIR   = DATA_DIR / "sql_files"
+IN_FILE   = DATA_DIR / "train.json"
+OUT_FILE  = DATA_DIR / "train_with_prompt.json"
 
 
 @lru_cache(maxsize=None)
@@ -45,9 +45,8 @@ def main() -> None:
         hint     = sample.get("evidence", "")   # your file calls it "evidence"
 
         sample["prompt"] = fill_prompt(schema, question, hint)
-
     OUT_FILE.write_text(json.dumps(samples, indent=2, ensure_ascii=False))
-    print(f"Wrote {len(samples)} examples → {OUT_FILE.relative_to(ROOT)}")
+    print(f"Wrote {len(samples)} examples → {OUT_FILE.relative_to(HERE)}")
 
 
 if __name__ == "__main__":
