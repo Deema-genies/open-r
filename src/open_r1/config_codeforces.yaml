@@ -5,7 +5,7 @@ torch_dtype: bfloat16
 attn_implementation: flash_attention_2
 
 # Data training arguments
-dataset_name: Deema/Reasoning_SQL_BIRD
+dataset_name: Genies/Reasoning_SQL_BIRD
 dataset_prompt_column: prompt
 dataset_config: default
 dataset_test_split: validation

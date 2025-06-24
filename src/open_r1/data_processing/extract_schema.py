@@ -14,12 +14,13 @@ from typing import Dict, List, Tuple, Any
 
 _SQLTYPE_OK = {"integer","real","text","blob","date","datetime","numeric"}
 
-def execute_sql(database_name, sql_query):
+def execute_sql(database_name, sql_query, split='train'):
     url = "http://34.222.115.130:5000/execute"  # API endpoint
     payload = {
         "database_name": database_name,
         "sql_query": sql_query,
-        "timeout_seconds": 10  # optional; default is 30 in the API
+        "timeout_seconds": 10,  # optional; default is 30 in the API
+        "split": split,
     }
     response = requests.post(url, json=payload)
     if response.status_code == 200:
@@ -38,7 +39,7 @@ def col_groups(schema)->Dict[int,List[Tuple[int,str,str]]]:
 
 def nonnull_example(db_id:str, table:str, col:str):
     try:
-        row = execute_sql(db_id, f'SELECT "{col}" FROM "{table}" WHERE "{col}" IS NOT NULL LIMIT 1;')
+        row = execute_sql(db_id, f'SELECT "{col}" FROM "{table}" WHERE "{col}" IS NOT NULL LIMIT 1;', split='test')
         if not row: return "NULL"
         val = row
         while type(val) == list:
@@ -99,7 +100,8 @@ def main():
     if isinstance(objs,dict): objs=[objs]
 
     for schema in objs:
-        sql_path= Path("sql_files/").with_suffix("").with_name(f"{schema['db_id']}.sql")
+        sql_path= Path("/home/ubuntu/deema/open-r1/src/open_r1/data_processing/sql_files/dev/").with_suffix("").with_name(f"{schema['db_id']}.sql")
+        ddl(schema)
         sql_path.write_text(ddl(schema))
         print("wrote", sql_path)
 
