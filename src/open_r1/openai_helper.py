@@ -10,8 +10,8 @@ from open_r1.judge_prompts import REASONING_SQL_LLM_JUDGE_PROMPT
 # Be sure to install the OpenAI Python library (>=0.27.0) that includes AsyncOpenAI:
 # pip install openai
 
-OPENAI_API_KEY = '#####'
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+# OPENAI_API_KEY = '#####'
+# os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 async def call_openai_eval_async(
     user_query: str,

@@ -27,8 +27,8 @@ import asyncio
 
 from trl import ScriptArguments
 import json
-from sql_helper import process_sql_batches
-from openai_helper import process_openai_batches_async
+from .sql_helper import process_sql_batches
+from .openai_helper import process_openai_batches_async
 # from llm_judge_helper import LLMJudgeHelper
 
 def get_ngram(string, N=2):
